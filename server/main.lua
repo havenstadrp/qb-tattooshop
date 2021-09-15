@@ -7,7 +7,7 @@ QBCore.Functions.CreateCallback('qb-tattooshop:GetPlayerTattoos', function(sourc
     local Player = QBCore.Functions.GetPlayer(source)
 
 	if Player then
-		 exports['ghmattimysql']:execute('SELECT tattoos FROM playerskins WHERE citizenid = @citizenid', {
+		 exports.oxmysql:fetch('SELECT tattoos FROM playerskins WHERE citizenid = @citizenid', {
 			['@citizenid'] = Player.PlayerData.citizenid
 		}, function(result)
 			if result[1].tattoos then
@@ -30,7 +30,7 @@ QBCore.Functions.CreateCallback('qb-tattooshop:PurchaseTattoo', function(source,
 
 		table.insert(tattooList, tattoo)
 
-		 exports['ghmattimysql']:execute('UPDATE playerskins SET tattoos = @tattoos WHERE citizenid = @citizenid', {
+		 exports.oxmysql:execute('UPDATE playerskins SET tattoos = @tattoos WHERE citizenid = @citizenid', {
 			['@tattoos'] = json.encode(tattooList),
 			['@citizenid'] = Player.PlayerData.citizenid
 		})
@@ -48,7 +48,7 @@ RegisterServerEvent('qb-tattooshop:server:RemoveTattoo')
 AddEventHandler('qb-tattooshop:server:RemoveTattoo', function (tattooList)
 	local Player = QBCore.Functions.GetPlayer(source)
 
-	exports['ghmattimysql']:execute('UPDATE playerskins SET tattoos = @tattoos WHERE citizenid = @citizenid', {
+	exports.oxmysql:execute('UPDATE playerskins SET tattoos = @tattoos WHERE citizenid = @citizenid', {
 		['@tattoos'] = json.encode(tattooList),
 		['@citizenid'] = Player.PlayerData.citizenid
 	})
